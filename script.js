@@ -132,6 +132,8 @@ const menuToggle = document.querySelector("#menuToggle");
 const mainNav = document.querySelector("#mainNav");
 const currentYear = document.querySelector("#currentYear");
 const scrollProgress = document.querySelector("#scrollProgress");
+const portraitBlock = document.querySelector(".portrait-block");
+const portraitImage = portraitBlock?.querySelector("img");
 const lightbox = document.querySelector("#lightbox");
 const lightboxImage = document.querySelector("#lightboxImage");
 const lightboxCaption = document.querySelector("#lightboxCaption");
@@ -156,6 +158,11 @@ function closeMenu() {
 }
 
 function setLanguage(language) {
+    const shouldAnimate = currentLanguage !== language;
+    if (shouldAnimate) {
+        document.body.classList.add("language-changing");
+    }
+
     currentLanguage = language;
     document.documentElement.lang = language;
 
@@ -173,6 +180,10 @@ function setLanguage(language) {
     lightboxClose.setAttribute("aria-label", language === "sl" ? "Zapri" : "Close");
 
     galleryControllers.forEach((controller) => controller.updateLanguage());
+
+    if (shouldAnimate) {
+        window.setTimeout(() => document.body.classList.remove("language-changing"), 180);
+    }
 
     try {
         localStorage.setItem("portfolio-language", language);
@@ -265,6 +276,23 @@ menuToggle.addEventListener("click", () => {
     mainNav.classList.toggle("open", !open);
     document.body.classList.toggle("menu-open", !open);
 });
+
+if (portraitBlock && portraitImage && !window.matchMedia("(prefers-reduced-motion: reduce)").matches) {
+    portraitBlock.addEventListener("pointermove", (event) => {
+        if (event.pointerType === "touch") {
+            return;
+        }
+
+        const bounds = portraitBlock.getBoundingClientRect();
+        const x = (event.clientX - bounds.left) / bounds.width - 0.5;
+        const y = (event.clientY - bounds.top) / bounds.height - 0.5;
+        portraitImage.style.transform = `translate(${x * 8}px, ${y * 8}px) scale(1.015)`;
+    });
+
+    portraitBlock.addEventListener("pointerleave", () => {
+        portraitImage.style.removeProperty("transform");
+    });
+}
 
 mainNav.querySelectorAll("a").forEach((link) => {
     link.addEventListener("click", closeMenu);

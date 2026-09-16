@@ -37,6 +37,7 @@ body {
     font-family: var(--sans);
     font-size: 16px;
     line-height: 1.7;
+    animation: grid-drift 24s ease-in-out infinite alternate;
 }
 
 body::before {
@@ -230,6 +231,15 @@ a {
 .language-toggle:hover {
     background: var(--accent);
     color: var(--background);
+}
+
+[data-i18n] {
+    transition: opacity 180ms ease, transform 180ms ease;
+}
+
+body.language-changing [data-i18n] {
+    opacity: 0.28;
+    transform: translateY(4px);
 }
 
 .menu-toggle {
@@ -443,11 +453,12 @@ h2 {
 
 .portrait-frame img {
     width: 100%;
-    aspect-ratio: 4 / 5;
+    aspect-ratio: 5 / 6;
     object-fit: cover;
     object-position: 50% 30%;
     filter: grayscale(0.25) contrast(1.04) saturate(0.82);
     transition: filter 300ms ease, transform 500ms ease;
+    will-change: transform;
 }
 
 .portrait-block:hover img {
@@ -666,6 +677,16 @@ h2 {
     scroll-snap-align: start;
 }
 
+.gallery-slide::after {
+    position: absolute;
+    inset: 0;
+    background: linear-gradient(135deg, transparent 55%, rgba(242, 184, 75, 0.16));
+    content: "";
+    opacity: 0;
+    pointer-events: none;
+    transition: opacity 300ms ease;
+}
+
 .gallery-slide img {
     width: 100%;
     aspect-ratio: 16 / 10;
@@ -675,7 +696,11 @@ h2 {
 
 .gallery-slide:hover img {
     filter: contrast(1.03);
-    transform: scale(1.012);
+    transform: scale(1.025);
+}
+
+.gallery-slide:hover::after {
+    opacity: 1;
 }
 
 .gallery-slide figcaption {
@@ -923,11 +948,13 @@ h2 {
     align-items: center;
     justify-content: center;
     flex-direction: column;
+    animation: lightbox-in 220ms ease both;
 }
 
 .lightbox::backdrop {
     background: rgba(0, 0, 0, 0.86);
     backdrop-filter: blur(8px);
+    animation: backdrop-in 220ms ease both;
 }
 
 .lightbox img {
@@ -957,6 +984,14 @@ h2 {
     background: transparent;
     cursor: pointer;
     font-size: 1.2rem;
+    transition: border-color 180ms ease, background-color 180ms ease, color 180ms ease, transform 180ms ease;
+}
+
+.lightbox-close:hover {
+    border-color: var(--accent);
+    background: var(--accent);
+    color: var(--background);
+    transform: rotate(90deg);
 }
 
 .js .reveal {
@@ -968,6 +1003,64 @@ h2 {
 .js .reveal.is-visible {
     opacity: 1;
     transform: translateY(0);
+}
+
+.js .reveal .eyebrow > span:first-child,
+.js .reveal .skill-index,
+.js .reveal .timeline-marker,
+.js .reveal .project-topline {
+    opacity: 0;
+    transform: translateX(-12px);
+    transition: opacity 500ms ease 180ms, transform 500ms ease 180ms;
+}
+
+.js .reveal h2,
+.js .reveal h3 {
+    opacity: 0;
+    transform: translateY(10px);
+    transition: opacity 500ms ease 240ms, transform 500ms ease 240ms;
+}
+
+.js .reveal.is-visible .eyebrow > span:first-child,
+.js .reveal.is-visible .skill-index,
+.js .reveal.is-visible .timeline-marker,
+.js .reveal.is-visible .project-topline,
+.js .reveal.is-visible h2,
+.js .reveal.is-visible h3 {
+    opacity: 1;
+    transform: translate(0);
+}
+
+@keyframes grid-drift {
+    from {
+        background-position: 0 0, 0 0, 0 0;
+    }
+
+    to {
+        background-position: 34px 17px, -34px 17px, 0 0;
+    }
+}
+
+@keyframes lightbox-in {
+    from {
+        opacity: 0;
+        transform: scale(0.96) translateY(10px);
+    }
+
+    to {
+        opacity: 1;
+        transform: scale(1) translateY(0);
+    }
+}
+
+@keyframes backdrop-in {
+    from {
+        opacity: 0;
+    }
+
+    to {
+        opacity: 1;
+    }
 }
 
 @media (max-width: 860px) {
