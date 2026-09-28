@@ -1,3 +1,4 @@
+/* Base styles and accessibility */
 :root {
     --background: #0b0d0c;
     --surface: #111411;
@@ -128,6 +129,7 @@ a {
     box-shadow: 0 0 12px rgba(242, 184, 75, 0.45);
 }
 
+/* Header and navigation */
 .site-header {
     position: fixed;
     z-index: 100;
@@ -272,12 +274,14 @@ body.language-changing [data-i18n] {
     transform: translateY(-5px) rotate(-45deg);
 }
 
+/* Page layout */
 .section {
     position: relative;
     padding: 118px 0;
     border-bottom: 1px solid var(--border);
 }
 
+/* Hero */
 .hero {
     display: flex;
     min-height: 100svh;
@@ -479,6 +483,7 @@ h2 {
     box-shadow: 0 0 0 4px rgba(156, 218, 88, 0.1);
 }
 
+/* About, skills, and education */
 .split-layout {
     display: grid;
     grid-template-columns: minmax(250px, 0.8fr) minmax(0, 1.2fr);
@@ -621,6 +626,7 @@ h2 {
     color: var(--muted);
 }
 
+/* Projects and galleries */
 .projects-section {
     overflow: hidden;
 }
@@ -692,6 +698,10 @@ h2 {
     aspect-ratio: 16 / 10;
     object-fit: cover;
     transition: transform 400ms ease, filter 300ms ease;
+}
+
+.project-gallery-contain .gallery-slide img {
+    object-fit: contain;
 }
 
 .gallery-slide:hover img {
@@ -840,6 +850,7 @@ h2 {
     color: var(--text);
 }
 
+/* Contact and footer */
 .contact-section {
     padding-bottom: 100px;
 }
@@ -929,6 +940,7 @@ h2 {
     color: var(--accent);
 }
 
+/* Lightbox and motion */
 .lightbox {
     position: fixed;
     inset: 0;
@@ -1064,6 +1076,7 @@ h2 {
 }
 
 @media (max-width: 860px) {
+    /* Tablet layout */
     :root {
         --header-height: 68px;
     }
@@ -1143,6 +1156,7 @@ h2 {
 }
 
 @media (max-width: 680px) {
+    /* Mobile layout */
     .container {
         width: min(calc(100% - 30px), var(--container));
     }
@@ -1233,6 +1247,7 @@ h2 {
 }
 
 @media (max-width: 430px) {
+    /* Narrow mobile layout */
     .logo-text {
         display: none;
     }
@@ -1266,6 +1281,7 @@ h2 {
 }
 
 @media (prefers-reduced-motion: reduce) {
+    /* Respect motion preferences */
     html {
         scroll-behavior: auto;
     }

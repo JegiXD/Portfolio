@@ -1,5 +1,6 @@
 document.documentElement.classList.add("js");
 
+// Translations
 const translations = {
     sl: {
         "menu.open": "Odpri meni",
@@ -127,6 +128,7 @@ const translations = {
     }
 };
 
+// Shared page elements and current language
 const languageToggle = document.querySelector("#languageToggle");
 const menuToggle = document.querySelector("#menuToggle");
 const mainNav = document.querySelector("#mainNav");
@@ -151,6 +153,7 @@ if (!translations[currentLanguage]) {
     currentLanguage = "sl";
 }
 
+// Language controls
 function closeMenu() {
     mainNav.classList.remove("open");
     menuToggle.setAttribute("aria-expanded", "false");
@@ -192,6 +195,7 @@ function setLanguage(language) {
     }
 }
 
+// Project galleries
 function initializeGallery(gallery) {
     const viewport = gallery.querySelector(".gallery-viewport");
     const slides = Array.from(gallery.querySelectorAll(".gallery-slide"));
@@ -270,6 +274,7 @@ function initializeGallery(gallery) {
     galleryControllers.push({ updateLanguage });
 }
 
+// Navigation and portrait interactions
 menuToggle.addEventListener("click", () => {
     const open = menuToggle.getAttribute("aria-expanded") === "true";
     menuToggle.setAttribute("aria-expanded", String(!open));
@@ -302,6 +307,7 @@ languageToggle.addEventListener("click", () => {
     setLanguage(currentLanguage === "sl" ? "en" : "sl");
 });
 
+// Keyboard and scroll interactions
 document.addEventListener("keydown", (event) => {
     if (event.key === "Escape") {
         closeMenu();
@@ -331,6 +337,7 @@ if ("IntersectionObserver" in window) {
     revealElements.forEach((element) => element.classList.add("is-visible"));
 }
 
+// Active section navigation
 const sections = document.querySelectorAll("main section[id]");
 const navigationLinks = Array.from(mainNav.querySelectorAll("a[href^='#']"));
 
@@ -348,6 +355,7 @@ if ("IntersectionObserver" in window) {
     sections.forEach((section) => sectionObserver.observe(section));
 }
 
+// Gallery and lightbox setup
 document.querySelectorAll("[data-gallery]").forEach(initializeGallery);
 
 lightboxClose.addEventListener("click", () => lightbox.close());
@@ -357,5 +365,6 @@ lightbox.addEventListener("click", (event) => {
     }
 });
 
+// Initial page state
 currentYear.textContent = new Date().getFullYear();
 setLanguage(currentLanguage);
